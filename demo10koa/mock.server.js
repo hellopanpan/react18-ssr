@@ -25,7 +25,7 @@ router.get("/mock/1", async (ctx) => {
   await new Promise((resolve, reject) => {
     setTimeout(resolve, 5000);
   });
-  console.log("loading data ----");
+  console.log("fetch mock data ----");
   ctx.status = 200;
   ctx.body = `{
     "data": [

@@ -46,7 +46,7 @@ app.use(async (ctx) => {
     }
   });
   await Promise.all(promiseArr);
-  console.log("loading data");
+  console.log("rendering server  ---");
   let context = { css: [] };
   const css = new Set();
   const insertCss = (...styles) =>

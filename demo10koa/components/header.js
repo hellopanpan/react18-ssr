@@ -7,7 +7,7 @@ const Header = (props) => {
   useStyles(styles);
   return (
     <div>
-      <h3 className={styles.title}>This is Header</h3>
+      {/* <h3 className={styles.title}>This is Header</h3> */}
       <Link to="/">toHome</Link>
       <br />
       <Link to="/about">toAbout</Link>
