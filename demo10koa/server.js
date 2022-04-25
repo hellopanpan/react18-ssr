@@ -8,9 +8,33 @@ import { renderRoutes, matchRoutes } from "react-router-config";
 import { Provider } from "react-redux";
 import StyleContext from "isomorphic-style-loader/StyleContext";
 import { getServerSore as getStore } from "./store";
+import { DataProvider } from "./containers/Pages/data";
 
 const app = new Koa();
 app.use(koaStatic("public"));
+
+function createServerData() {
+  let done = false;
+  let promise = null;
+  return {
+    read() {
+      if (done) {
+        return;
+      }
+      if (promise) {
+        throw promise;
+      }
+      promise = new Promise((resolve) => {
+        setTimeout(() => {
+          done = true;
+          promise = null;
+          resolve();
+        }, 2000);
+      });
+      throw promise;
+    },
+  };
+}
 
 app.use(async (ctx) => {
   const store = getStore();
@@ -22,6 +46,7 @@ app.use(async (ctx) => {
     }
   });
   await Promise.all(promiseArr);
+  console.log("loading data");
   let context = { css: [] };
   const css = new Set();
   const insertCss = (...styles) =>
@@ -50,7 +75,9 @@ app.use(async (ctx) => {
       <Provider store={store}>
         <StyleContext.Provider value={{ insertCss }}>
           <StaticRouter location={ctx.request.path} context={context}>
-            <div>{renderRoutes(Routes)}</div>
+            <DataProvider data={createServerData()}>
+              <div>{renderRoutes(Routes)}</div>
+            </DataProvider>
           </StaticRouter>
         </StyleContext.Provider>
       </Provider>,
@@ -63,7 +90,6 @@ app.use(async (ctx) => {
           ctx.res.write(prefix);
           pipe(ctx.res);
           ctx.res.write(endfix);
-          ctx.res.end();
         },
         onShellError() {
           reject();

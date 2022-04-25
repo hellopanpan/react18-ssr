@@ -13,6 +13,8 @@ export default function Spinner({ active = true }) {
       className={["spinner", active && "spinner--active"].join(" ")}
       role="progressbar"
       aria-busy={active ? "true" : "false"}
-    />
+    >
+      loading
+    </div>
   );
 }

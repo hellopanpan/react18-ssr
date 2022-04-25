@@ -7,6 +7,7 @@ import styles from "./about.css";
 
 const About = (props) => {
   useStyles(styles);
+  useEffect(props.getList, []);
   return (
     <div>
       <Header staticContext={props.staticContext}></Header>

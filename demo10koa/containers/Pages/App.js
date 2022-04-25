@@ -12,6 +12,7 @@ import Html from "./Html";
 import Spinner from "./Spinner";
 import Layout from "./Layout";
 import NavBar from "./NavBar";
+import Header from "../../components/header";
 
 const Comments = lazy(() => import("./Comments" /* webpackPrefetch: true */));
 const Sidebar = lazy(() => import("./Sidebar" /* webpackPrefetch: true */));
@@ -28,6 +29,7 @@ export default function App({ assets }) {
 function Content() {
   return (
     <Layout>
+      <Header></Header>
       <NavBar />
       <aside className="sidebar">
         <Suspense fallback={<Spinner />}>
